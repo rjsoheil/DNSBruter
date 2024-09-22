@@ -5,9 +5,10 @@ from pymongo import MongoClient
 from datetime import datetime
 
 class DataBase:
-    def __init__(self, target, subdomains):
+    def __init__(self, target, subdomains, mode):
         self.target = target
         self.subdomains = subdomains
+        self.mode = mode
 
     def insert_into_database(self):
         raise NotImplementedError("This method should be implemented by subclasses")
@@ -16,7 +17,7 @@ class DataBaseHandler(DataBase):
     def insert_into_database(self):
         try:
             client = MongoClient("mongodb://localhost:27017/")
-            db = client['dns_brut_force']
+            db = client['dns_brute_force']
             collection_name = self.target.replace('.', '_')
             collection = db[collection_name]
             now = datetime.now()
@@ -30,7 +31,8 @@ class DataBaseHandler(DataBase):
             new_subdomains = [subdomain for subdomain in self.subdomains if subdomain not in existing_subdomains]
             if new_subdomains:
                 data = [{'subdomain': subdomain, 
-                         'date_added': now.strftime("%Y-%m-%d %H:%M:%S")} 
+                         'date_added': now.strftime("%Y-%m-%d %H:%M:%S"),
+                         'mode':self.mode} 
                          for subdomain in new_subdomains]
                 collection.insert_many(data)
                 print(f"Inserting {Fore.GREEN}{len(new_subdomains)}{Fore.RESET} new subdomains into the {Fore.GREEN}{self.target}{Fore.RESET} collection in the database...")
@@ -41,6 +43,31 @@ class DataBaseHandler(DataBase):
 
         except Exception as e:
             print(f"{Fore.RED}An error occurred: {e}")
+
+    def get_subdomains(self):
+        try:
+            client = MongoClient("mongodb://localhost:27017/")
+            db = client['dns_brute_force']
+            collection_name = self.target.replace('.', '_')
+            collection = db[collection_name]
+
+            if collection_name in db.list_collection_names():
+                if self.mode:
+                    result = collection.find({"mode":self.mode}, {"subdomain": 1, "date_added":1})
+                    subdomains = [(record["subdomain"], record["date_added"]) for record in result]
+                else:
+                    result = collection.find({}, {"subdomain": 1, "date_added":1, "mode":1})
+                    subdomains = [(record["subdomain"], record["date_added"], record["mode"]) for record in result]
+
+                return subdomains
+
+            else:
+                print(f"{Fore.LIGHTRED_EX}[-] Collection '{collection_name}' does not exist.\n{Fore.WHITE}")
+                return []
+
+        except Exception as e:
+            print(f"{Fore.RED}An error occurred: {e} {Fore.YELLOW}(){Fore.WHITE}")
+            return []
 
 class DNSBruter:
     def __init__(self, target, wordlist, resolvers, massdns_path, file_output=False):
@@ -125,7 +152,7 @@ class DynamicBrute(DNSBruter):
             print(f"{Fore.RED}Error: {e}{Fore.WHITE}")
 
     def start_brute_force(self):
-        print(f"{Fore.LIGHTGREEN_EX}[X]\t{Fore.LIGHTRED_EX}<RESOLVING>{Fore.RED}.{self.target}{Fore.GREEN}\t[X]{Fore.WHITE}")
+        print(f"{Fore.LIGHTGREEN_EX}\t\t\t[X]\t{Fore.LIGHTRED_EX}<RESOLVING>{Fore.RED}.{self.target}{Fore.GREEN}\t[X]{Fore.WHITE}")
         if self.subdomain_list:
             command = [
                 'shuffledns', '-silent',
