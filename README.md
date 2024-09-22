@@ -21,3 +21,25 @@ To use this tool, you must have the following tools installed:
   - [dnsgen](https://github.com/AlephNullSK/dnsgen/)
 
 ## Usage
+### Static Brute Force
+- Command:
+  `python3 main.py --mode static -w words.txt -d target.com --path-massdns /usr/bin/massdns -r ~/resolvers`
+### Dynamic Brute Force
+  - On the list of subdomains:
+    `python3 main.py --mode dynamic --list-subs target-subs.txt -w words-merged.txt -d target.com -pm /usr/bin/massdns -r ~/resolvers`
+  - On the single subdomain:
+    `python3 main.py --mode dynamic -w words-merged.txt -d api.target.com -pm /usr/bin/massdns -r ~/resolvers`
+
+### Data storage
+  This tool uses Mongo database for data storage
+  - Switch: `--insert`
+    Stored data:
+      - Subdomain
+      - Data added
+      - Mode (The mode in which the tool found this subdomain)
+
+### Get a list of subdomains
+  - Filter by mode
+    `python3 main.py --get -d target.com -m static`
+  - Without filtering
+    `python3 main.py -g -d target.com`
