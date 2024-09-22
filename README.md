@@ -1,4 +1,6 @@
 # DNSBruter
+![Untitled design](https://github.com/user-attachments/assets/26de9a23-abdb-4ff8-8607-fe6749e62d0b)
+
 This tool accurately uses both static and dynamic modes for subdomain brute forcing and stores it in its database (optional).
   - Static
   - Dynamic
