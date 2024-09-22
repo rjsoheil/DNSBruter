@@ -16,6 +16,7 @@ This tool accurately uses both static and dynamic modes for subdomain brute forc
 git clone https://github.com/rjsoheil/DNSBruter.git
 pip install -r requirements.txt
 cat script.txt >> ~/.zshrc OR cat script.txt >> ~/.bashrc
+source ~/.zshrc
 ```
 To use this tool, you must have the following tools installed:
   - [shuffledns](https://github.com/projectdiscovery/shuffledns/)
