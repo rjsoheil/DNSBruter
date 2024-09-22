@@ -40,6 +40,6 @@ To use this tool, you must have the following tools installed:
 
 ### Get a list of subdomains
   - Filter by mode
-    ```python3 main.py --get -d target.com -m static```
+    - ```python3 main.py --get -d target.com -m static```
   - Without filtering
-    ```python3 main.py -g -d target.com```
+    - ```python3 main.py -g -d target.com```
