@@ -23,12 +23,12 @@ To use this tool, you must have the following tools installed:
 ## Usage
 ### Static Brute Force
 - Command:
-  ```python3 main.py --mode static -w words.txt -d target.com --path-massdns /usr/bin/massdns -r ~/resolvers```
+  - ```python3 main.py --mode static -w words.txt -d target.com --path-massdns /usr/bin/massdns -r ~/resolvers```
 ### Dynamic Brute Force
   - On the list of subdomains:
-    ```python3 main.py --mode dynamic --list-subs target-subs.txt -w words-merged.txt -d target.com -pm /usr/bin/massdns -r ~/resolvers```
+    - ```python3 main.py --mode dynamic --list-subs target-subs.txt -w words-merged.txt -d target.com -pm /usr/bin/massdns -r ~/resolvers```
   - On the single subdomain:
-   ```python3 main.py --mode dynamic -w words-merged.txt -d api.target.com -pm /usr/bin/massdns -r ~/resolvers```
+    - ```python3 main.py --mode dynamic -w words-merged.txt -d api.target.com -pm /usr/bin/massdns -r ~/resolvers```
 
 ### Data storage
   This tool uses Mongo database for data storage
