@@ -1,0 +1,7 @@
+wldns_subexpander () {
+        cat $1 | dnsgen -w $2 - > /tmp/dnsgen.tmp
+        altdns -i $1 -w $2 -o /tmp/altdns.tmp
+        cat /tmp/dnsgen.tmp /tmp/altdns.tmp | sort -u > $3-wl-dnsbrute.txt
+        rm -rf /tmp/dnsgen.tmp
+        rm -rf /tmp/altdns.tmp
+}
