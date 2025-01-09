@@ -22,7 +22,7 @@ To use this tool, you must have the following tools installed:
   - [shuffledns](https://github.com/projectdiscovery/shuffledns/)
   - [massdns](https://github.com/blechschmidt/massdns/)
   - [dnsgen](https://github.com/AlephNullSK/dnsgen/)
-
+  - [MongoDB](https://www.mongodb.com/docs/v6.2/administration/install-on-linux/)
 ## Usage
 ### Static Brute Force
 - Command:
